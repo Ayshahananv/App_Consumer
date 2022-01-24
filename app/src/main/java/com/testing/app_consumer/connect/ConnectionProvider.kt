@@ -48,11 +48,11 @@ class ConnectionProvider : IpcService {
         if (connected) {
             val schema = iRequest.schema
             Log.e(TAG, "onSchema: ${JSONObject(schema!!)}")
-//            val requiredFeature = JSONObject(schema).keys().asSequence().toMutableList()
-            val requiredFeature =
-                JSONObject(JSONObject(schema).get("schema").toString()).keys().asSequence()
-                    .toMutableList()
-            //iRequest.subscribe(pkg, requiredFeature)
+            val requiredFeature = JSONObject(schema).keys().asSequence().toMutableList()
+//            val requiredFeature =
+//                JSONObject(JSONObject(schema).get("schema").toString()).keys().asSequence()
+//                    .toMutableList()
+            Log.d(TAG, "getSchema:$requiredFeature ")
             iRequest.subscribe(pkg,requiredFeature)
             val mfdData=iRequest.requestData(pkg, listOf(Request("manufacturer",JSONObject().toString())))
             Log.d("kajal", "getSchema:$mfdData ")
