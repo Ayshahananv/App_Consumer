@@ -11,5 +11,4 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.settings_activity)
         ConnectionProvider().connect(this)
     }
-
 }
