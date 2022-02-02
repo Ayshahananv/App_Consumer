@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "App_Consumer"
 include ':app'
+include ':consumer_b'
