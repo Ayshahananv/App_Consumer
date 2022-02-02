@@ -24,7 +24,7 @@ class ConnectionProvider : IpcService {
         XTSConnection.getIpc().registerEventReceiver(pkg, EventReceiver)
         if (connected) {
             getSchema()
-            getMfd()
+         //   getMfd()
         }
     }
 
@@ -33,7 +33,7 @@ class ConnectionProvider : IpcService {
     }
 
     fun connect(context: Context) {
-        connected = XTSConnection.getIpc().connect(context, "com.testing.app_producer", this)
+        connected = XTSConnection.getIpc().connect(context, "com.smartbattery.zebra", this)
         Log.d(TAG, "connect: $connected")
     }
 
@@ -41,15 +41,13 @@ class ConnectionProvider : IpcService {
         if (connected) {
             val schema = iRequest.schema
             Log.e(TAG, "onSchema: ${JSONObject(schema!!)}")
-            val requiredFeature = JSONObject(schema).keys().asSequence().toMutableList()
-//            val requiredFeature =
-//                JSONObject(JSONObject(schema).get("schema").toString()).keys().asSequence()
-//                    .toMutableList()
+//            val requiredFeature = JSONObject(schema).keys().asSequence().toMutableList()
+            val requiredFeature =
+                JSONObject(JSONObject(schema).get("schema").toString()).keys().asSequence()
+                    .toMutableList()
             Log.d(TAG, "getSchema:$requiredFeature ")
             iRequest.subscribe(pkg, requiredFeature)
-            val mfdData =
-                iRequest.requestData(pkg, listOf(Request("manufacturer", JSONObject().toString())))
-            Log.d("kajal", "getSchema:$mfdData ")
+
         }
     }
 
