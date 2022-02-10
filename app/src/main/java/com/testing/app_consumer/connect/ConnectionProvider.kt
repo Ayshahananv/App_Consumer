@@ -2,8 +2,10 @@ package com.testing.app_consumer.connect
 
 import android.content.Context
 import android.util.Log
+import com.testing.app_consumer.receiver.EventReceiver
 import net.soti.xtsocket.ipc.IRequest
-import net.soti.xtsocket.ipc.controllers.XTSConnection
+import net.soti.xtsocket.ipc.controllers.XTSocket
+import net.soti.xtsocket.ipc.interfaces.Ipc
 import net.soti.xtsocket.ipc.interfaces.IpcService
 import net.soti.xtsocket.ipc.model.Request
 import org.json.JSONObject
@@ -17,13 +19,13 @@ class ConnectionProvider : IpcService {
         lateinit var iRequest: IRequest
     }
 
-    override fun onConnected() {
+    override fun onConnected(packageName: String, ipc: Ipc) {
         Log.d(TAG, "onConnected: ")
-        iRequest = XTSConnection.getIpc().iRequest()!!
-//        XTSConnection.getIpc().registerEventReceiver(pkg, EventReceiver)
+        iRequest = ipc.iRequest()!!
+       // ipc.registerEventReceiver(pkg, EventReceiver)
         if (connected) {
             getSchema()
-            getPanasonicAPIs()
+             getPanasonicAPIs()
         }
     }
 
@@ -32,19 +34,18 @@ class ConnectionProvider : IpcService {
     }
 
     fun connect(context: Context) {
-        connected = XTSConnection.getIpc().connect(context, "com.smartbattery.panasonic", this)
-//        connected = XTSConnection.getIpc().connect(context, "com.testing.app_producer", this)
+        connected = XTSocket().connect(context, "android.smartbattery.panasonic", this)
+//        connected = XTSocket().connect(context, "com.smartbattery.panasonic", this)
+//        connected = XTSConnection().establish(context, "com.testing.app_producer", this)
         Log.d(TAG, "connect: $connected")
     }
 
     fun getSchema() {
         if (connected) {
-            val schema = iRequest.schema
+            val schema = iRequest.schema.value
             Log.e(TAG, "onSchema: ${JSONObject(schema!!)}")
-//            val requiredFeature = JSONObject(schema).keys().asSequence().toMutableList()
-            val requiredFeature =
-                JSONObject(JSONObject(schema).get("schema").toString()).keys().asSequence()
-                    .toMutableList()
+            val requiredFeature = JSONObject(schema).keys().asSequence().toMutableList()
+            requiredFeature.remove("#xtsConfig")
             Log.d(TAG, "getSchema:$requiredFeature ")
             iRequest.subscribe(pkg, requiredFeature)
         }
@@ -53,10 +54,12 @@ class ConnectionProvider : IpcService {
     fun getPanasonicAPIs() {
         val apis = iRequest.requestData(
             pkg, listOf(
+            //    Request("manufacturer", JSONObject().toString()),
                 Request("serial", JSONObject().toString()),
                 Request("product_date", JSONObject().toString()),
                 Request("health", JSONObject().toString()),
                 Request("count", JSONObject().toString()),
+                Request("count2", JSONObject().toString()),
             )
         ).toString()
         Log.d("kajal", apis)
