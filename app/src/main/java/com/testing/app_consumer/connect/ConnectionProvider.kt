@@ -2,7 +2,7 @@ package com.testing.app_consumer.connect
 
 import android.content.Context
 import android.util.Log
-import com.testing.app_consumer.receiver.EventReceiver
+//import com.testing.app_consumer.receiver.EventReceiver
 import net.soti.xtsocket.ipc.IRequest
 import net.soti.xtsocket.ipc.controllers.XTSocket
 import net.soti.xtsocket.ipc.interfaces.Ipc
@@ -45,6 +45,7 @@ class ConnectionProvider : IpcService {
             val schema = iRequest.schema.value
             Log.e(TAG, "onSchema: ${JSONObject(schema!!)}")
             val requiredFeature = JSONObject(schema).keys().asSequence().toMutableList()
+//            requiredFeature.add("count2")
             requiredFeature.remove("#xtsConfig")
             Log.d(TAG, "getSchema:$requiredFeature ")
             iRequest.subscribe(pkg, requiredFeature)
@@ -59,7 +60,9 @@ class ConnectionProvider : IpcService {
                 Request("product_date", JSONObject().toString()),
                 Request("health", JSONObject().toString()),
                 Request("count", JSONObject().toString()),
-                Request("count2", JSONObject().toString()),
+                //fz-a3
+               // Request("count2", JSONObject().toString())
+
             )
         ).toString()
         Log.d("kajal", apis)

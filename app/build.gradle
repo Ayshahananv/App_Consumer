@@ -44,6 +44,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation files('src/main/lib/ipc-debug.aar')
+    implementation files('src/main/lib/error-debug.aar')
 //    implementation files('/Users/kj636441/kajal-office/GHE/XTS_AndroidAgent-issue_store_schema_and_database_to_nobackup/ipc/build/outputs/aar/ipc-debug.aar')
 //    implementation files('src/main/lib/transformlayer-debug.aar')
 }
