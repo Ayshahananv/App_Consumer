@@ -22,10 +22,10 @@ class ConnectionProvider : IpcService {
     override fun onConnected(packageName: String, ipc: Ipc) {
         Log.d(TAG, "onConnected: ")
         iRequest = ipc.iRequest()!!
-       // ipc.registerEventReceiver(pkg, EventReceiver)
+        // ipc.registerEventReceiver(pkg, EventReceiver)
         if (connected) {
             getSchema()
-             getPanasonicAPIs()
+            getPanasonicAPIs()
         }
     }
 
@@ -46,6 +46,8 @@ class ConnectionProvider : IpcService {
             Log.e(TAG, "onSchema: ${JSONObject(schema!!)}")
             val requiredFeature = JSONObject(schema).keys().asSequence().toMutableList()
 //            requiredFeature.add("count2")
+//            requiredFeature.add("remaining")
+//            requiredFeature.add("serial2")
             requiredFeature.remove("#xtsConfig")
             Log.d(TAG, "getSchema:$requiredFeature ")
             iRequest.subscribe(pkg, requiredFeature)
@@ -53,19 +55,54 @@ class ConnectionProvider : IpcService {
     }
 
     fun getPanasonicAPIs() {
-        val apis = iRequest.requestData(
-            pkg, listOf(
-            //    Request("manufacturer", JSONObject().toString()),
-                Request("serial", JSONObject().toString()),
-                Request("product_date", JSONObject().toString()),
-                Request("health", JSONObject().toString()),
-                Request("count", JSONObject().toString()),
-                //fz-a3
-               // Request("count2", JSONObject().toString())
 
-            )
+        val serial = iRequest.requestData(
+            pkg, listOf(Request("serial", JSONObject().toString()))
         ).toString()
-        Log.d("kajal", apis)
+        Log.d("kajal", serial)
+
+        val productDate = iRequest.requestData(
+            pkg, listOf(Request("product_date", JSONObject().toString()))
+        ).toString()
+        Log.d("kajal", productDate)
+
+        val health = iRequest.requestData(
+            pkg, listOf(Request("health", JSONObject().toString()))
+        ).toString()
+        Log.d("kajal", health)
+
+        val count = iRequest.requestData(
+            pkg, listOf(Request("count", JSONObject().toString()))
+        ).toString()
+        Log.d("kajal", count)
+
+//        val apis = iRequest.requestData(
+//            pkg, listOf(
+//                //    Request("manufacturer", JSONObject().toString()),
+//                Request("serial", JSONObject().toString()),
+//                Request("product_date", JSONObject().toString()),
+//                Request("health", JSONObject().toString()),
+//                Request("count", JSONObject().toString()),
+//
+//                Request("serial", JSONObject().toString()),
+//                Request("product_date", JSONObject().toString()),
+//                Request("health", JSONObject().toString()),
+//                Request("count", JSONObject().toString()),
+//
+//                Request("serial", JSONObject().toString()),
+//                Request("product_date", JSONObject().toString()),
+//                //fz-a3
+////                Request("remaining", JSONObject().toString()),
+////                Request("serial2", JSONObject().toString()),
+////                Request("product_date2", JSONObject().toString()),
+////                Request("health2", JSONObject().toString()),
+////                Request("count2", JSONObject().toString()),
+////                Request("remaining", JSONObject().toString()),
+//
+//            )
+//        ).toString()
+//        Log.d("kajal", apis)
+
     }
 }
 
