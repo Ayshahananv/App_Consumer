@@ -10,42 +10,66 @@ import net.soti.xtsocket.ipc.model.Request
 import org.json.JSONObject
 
 class ConnectionProvider : IpcService {
-    private val TAG = "Aysha"
-    private val pkg = "com.testing.app_consumer"
-    private var connected = false
-    private lateinit var iRequest: IRequest
-    var manufacturer: String = ""
-    lateinit var ipc: Ipc
+    private val TAG = "ONE_C"
+    private lateinit var contextH: Context
+
+    companion object{
+        val pkg = "com.testing.app_consumer"
+        private var connected = false
+        lateinit var iRequest: IRequest
+    }
+
 
     override fun onConnected(packageName: String, ipc: Ipc) {
-        this.ipc = ipc
-        Log.d(TAG, "onConnected: ")
-        iRequest = ipc.iRequest()!!
+        Log.d(TAG, "onConnected:")
+        iRequest=ipc.iRequest()!!
         getSchema()
-        if (connected) {
-            manufacturer = iRequest.requestData(
-                pkg, listOf(Request("level", JSONObject().toString()))
-            ).toString()
-        }
-        Log.d(TAG, "manu: $manufacturer")
+        //Scheduler().setAlarm(this.contextH, Scheduler.getTime())
+    }
+
+    fun fetchData() {
+        Log.d(TAG, "fetchData: ")
+        val data = iRequest.requestData(
+            pkg, listOf(
+                Request("mfd", JSONObject().toString()),
+                Request("partnumber", JSONObject().toString()),
+                Request("serialnumber", JSONObject().toString()),
+                Request("ratedcapacity", JSONObject().toString()),
+                Request("battery_decommission", JSONObject().toString()),
+                Request("total_cumulative_charge", JSONObject().toString()),
+                Request("base_cumulative_charge", JSONObject().toString()),
+                Request("seconds_since_first_use", JSONObject().toString()),
+                Request("present_capacity", JSONObject().toString()),
+                Request("health_percentage", JSONObject().toString()),
+                Request("time_to_empty", JSONObject().toString()),
+                Request("time_to_full", JSONObject().toString()),
+                Request("present_charge", JSONObject().toString()),
+                //Request("battery_usage_numb", JSONObject().toString())
+            )
+        )
+        Log.d(TAG, "onConnected: $data ")
     }
 
     private fun getSchema() {
+        Log.d(TAG, "getSchema: ")
         if (connected) {
             val schema = JSONObject(iRequest.schema!!.value!!)
             Log.e(TAG, "onSchema: ${JSONObject(iRequest.schema!!.value!!)}")
             val requiredFeature =
-                schema.keys().asSequence().toList()
+                schema.keys().asSequence().toMutableList()
+            //requiredFeature.remove("mfd")
             iRequest.subscribe(pkg, requiredFeature)
         }
     }
 
-    override fun onDisconnected() {
+    override fun onDisconnected(packageName: String) {
         Log.d(TAG, "onDisconnected: ")
     }
 
     fun connect(context: Context) {
+        contextH = context
+        Log.d(TAG, "connect:")
         connected = XTSocket().connect(context, "com.zebra.smartbattery", this)
-        Log.d(TAG,"connected${connected.toString()}")
+        Log.d(TAG, "connected loop :${connected.toString()}")
     }
 }

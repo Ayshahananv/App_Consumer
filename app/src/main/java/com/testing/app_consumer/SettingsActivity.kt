@@ -7,11 +7,12 @@ import com.testing.app_consumer.connect.ConnectionProvider
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("Aysha", "onCreate: Started")
+        Log.d("ONE_C", "onCreate: Started ")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
         ConnectionProvider().connect(this)
-        Log.d("Aysha", "onCreate:ended ")
+        Scheduler().setAlarm(this, Scheduler.getTime())
+        Log.d("ONE_C", "onCreate:ended ")
 
     }
 
