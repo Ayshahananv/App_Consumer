@@ -2,6 +2,7 @@ package com.testing.app_consumer.connect
 
 import android.content.Context
 import android.util.Log
+import com.testing.app_consumer.scheduler.RequestScheduler
 //import com.testing.app_consumer.receiver.EventReceiver
 import net.soti.xtsocket.ipc.IRequest
 import net.soti.xtsocket.ipc.controllers.XTSocket
@@ -12,6 +13,7 @@ import org.json.JSONObject
 
 class ConnectionProvider : IpcService {
     private val TAG = "kajal"
+    private lateinit var context2: Context
 
     companion object {
         val pkg = "com.testing.app_consumer"
@@ -25,7 +27,9 @@ class ConnectionProvider : IpcService {
         // ipc.registerEventReceiver(pkg, EventReceiver)
         if (connected) {
             getSchema()
-            getPanasonicAPIs()
+            RequestScheduler().setAlarm(context2, RequestScheduler.getTime())
+          //  getMfd()
+           // getPanasonicAPIs()
         }
     }
 
@@ -34,9 +38,9 @@ class ConnectionProvider : IpcService {
     }
 
     fun connect(context: Context) {
-        connected = XTSocket().connect(context, "android.smartbattery.panasonic", this)
-//        connected = XTSocket().connect(context, "com.smartbattery.panasonic", this)
-//        connected = XTSConnection().establish(context, "com.testing.app_producer", this)
+        context2 = context
+//        connected = XTSocket().connect(context, "android.smartbattery.panasonic", this)
+        connected = XTSocket().connect(context, "com.testing.app_producer", this)
         Log.d(TAG, "connect: $connected")
     }
 
@@ -53,29 +57,35 @@ class ConnectionProvider : IpcService {
             iRequest.subscribe(pkg, requiredFeature)
         }
     }
-
-    fun getPanasonicAPIs() {
-
-        val serial = iRequest.requestData(
-            pkg, listOf(Request("serial", JSONObject().toString()))
+    fun getMfd(){
+                val mfd = iRequest.requestData(
+            pkg, listOf(Request("manufacturer", JSONObject().toString()))
         ).toString()
-        Log.d("kajal", serial)
-
-        val productDate = iRequest.requestData(
-            pkg, listOf(Request("product_date", JSONObject().toString()))
-        ).toString()
-        Log.d("kajal", productDate)
-
-        val health = iRequest.requestData(
-            pkg, listOf(Request("health", JSONObject().toString()))
-        ).toString()
-        Log.d("kajal", health)
-
-        val count = iRequest.requestData(
-            pkg, listOf(Request("count", JSONObject().toString()))
-        ).toString()
-        Log.d("kajal", count)
-
+        Log.d("kajal", mfd)
+    }
+//
+//    fun getPanasonicAPIs() {
+//
+//        val serial = iRequest.requestData(
+//            pkg, listOf(Request("serial", JSONObject().toString()))
+//        ).toString()
+//        Log.d("kajal", serial)
+//
+//        val productDate = iRequest.requestData(
+//            pkg, listOf(Request("product_date", JSONObject().toString()))
+//        ).toString()
+//        Log.d("kajal", productDate)
+//
+//        val health = iRequest.requestData(
+//            pkg, listOf(Request("health", JSONObject().toString()))
+//        ).toString()
+//        Log.d("kajal", health)
+//
+//        val count = iRequest.requestData(
+//            pkg, listOf(Request("count", JSONObject().toString()))
+//        ).toString()
+//        Log.d("kajal", count)
+//
 //        val apis = iRequest.requestData(
 //            pkg, listOf(
 //                //    Request("manufacturer", JSONObject().toString()),
@@ -102,7 +112,7 @@ class ConnectionProvider : IpcService {
 //            )
 //        ).toString()
 //        Log.d("kajal", apis)
-
-    }
+//
+//    }
 }
 
