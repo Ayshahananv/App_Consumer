@@ -39,8 +39,8 @@ class ConnectionProvider : IpcService {
 
     fun connect(context: Context) {
         context2 = context
-//        connected = XTSocket().connect(context, "android.smartbattery.panasonic", this)
-        connected = XTSocket().connect(context, "com.testing.app_producer", this)
+        connected = XTSocket().connect(context, "android.smartbattery.panasonic", this)
+//        connected = XTSocket().connect(context, "com.testing.app_producer", this)
         Log.d(TAG, "connect: $connected")
     }
 
@@ -57,62 +57,62 @@ class ConnectionProvider : IpcService {
             iRequest.subscribe(pkg, requiredFeature)
         }
     }
-    fun getMfd(){
-                val mfd = iRequest.requestData(
-            pkg, listOf(Request("manufacturer", JSONObject().toString()))
-        ).toString()
-        Log.d("kajal", mfd)
-    }
-//
-//    fun getPanasonicAPIs() {
-//
-//        val serial = iRequest.requestData(
-//            pkg, listOf(Request("serial", JSONObject().toString()))
+//    fun getMfd(){
+//                val mfd = iRequest.requestData(
+//            pkg, listOf(Request("manufacturer", JSONObject().toString()))
 //        ).toString()
-//        Log.d("kajal", serial)
-//
-//        val productDate = iRequest.requestData(
-//            pkg, listOf(Request("product_date", JSONObject().toString()))
-//        ).toString()
-//        Log.d("kajal", productDate)
-//
-//        val health = iRequest.requestData(
-//            pkg, listOf(Request("health", JSONObject().toString()))
-//        ).toString()
-//        Log.d("kajal", health)
-//
-//        val count = iRequest.requestData(
-//            pkg, listOf(Request("count", JSONObject().toString()))
-//        ).toString()
-//        Log.d("kajal", count)
-//
-//        val apis = iRequest.requestData(
-//            pkg, listOf(
-//                //    Request("manufacturer", JSONObject().toString()),
-//                Request("serial", JSONObject().toString()),
-//                Request("product_date", JSONObject().toString()),
-//                Request("health", JSONObject().toString()),
-//                Request("count", JSONObject().toString()),
-//
-//                Request("serial", JSONObject().toString()),
-//                Request("product_date", JSONObject().toString()),
-//                Request("health", JSONObject().toString()),
-//                Request("count", JSONObject().toString()),
-//
-//                Request("serial", JSONObject().toString()),
-//                Request("product_date", JSONObject().toString()),
-//                //fz-a3
-////                Request("remaining", JSONObject().toString()),
-////                Request("serial2", JSONObject().toString()),
-////                Request("product_date2", JSONObject().toString()),
-////                Request("health2", JSONObject().toString()),
-////                Request("count2", JSONObject().toString()),
-////                Request("remaining", JSONObject().toString()),
-//
-//            )
-//        ).toString()
-//        Log.d("kajal", apis)
-//
+//        Log.d("kajal", mfd)
 //    }
+
+    fun getPanasonicAPIs() {
+
+        val serial = iRequest.requestData(
+            pkg, listOf(Request("serial", JSONObject().toString()))
+        ).toString()
+        Log.d("kajal", serial)
+
+        val productDate = iRequest.requestData(
+            pkg, listOf(Request("product_date", JSONObject().toString()))
+        ).toString()
+        Log.d("kajal", productDate)
+
+        val health = iRequest.requestData(
+            pkg, listOf(Request("health", JSONObject().toString()))
+        ).toString()
+        Log.d("kajal", health)
+
+        val count = iRequest.requestData(
+            pkg, listOf(Request("count", JSONObject().toString()))
+        ).toString()
+        Log.d("kajal", count)
+
+        val apis = iRequest.requestData(
+            pkg, listOf(
+                //    Request("manufacturer", JSONObject().toString()),
+                Request("serial", JSONObject().toString()),
+                Request("product_date", JSONObject().toString()),
+                Request("health", JSONObject().toString()),
+                Request("count", JSONObject().toString()),
+
+                Request("serial", JSONObject().toString()),
+                Request("product_date", JSONObject().toString()),
+                Request("health", JSONObject().toString()),
+                Request("count", JSONObject().toString()),
+
+                Request("serial", JSONObject().toString()),
+                Request("product_date", JSONObject().toString()),
+                //fz-a3
+//                Request("remaining", JSONObject().toString()),
+//                Request("serial2", JSONObject().toString()),
+//                Request("product_date2", JSONObject().toString()),
+//                Request("health2", JSONObject().toString()),
+//                Request("count2", JSONObject().toString()),
+//                Request("remaining", JSONObject().toString()),
+
+            )
+        ).toString()
+        Log.d("kajal", apis)
+
+    }
 }
 

@@ -12,6 +12,6 @@ class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.d(TAG, "onReceive:AlarmReceiver ")
 //        ConnectionProvider().getSchema()
-        ConnectionProvider().getMfd()
+        ConnectionProvider().getPanasonicAPIs()
     }
 }
