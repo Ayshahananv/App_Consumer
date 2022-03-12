@@ -92,6 +92,9 @@ class ConnectionProvider:TransportService() {
         connected=connectProvider(context,"com.testing.app_producer",this)
         Log.d("Aysha connected", connected.toString())
     }
+    fun s(){
+        Log.d(TAG, "s: ")
+    }
 }
 class EventReceiver:IResponse.Stub(){
     override fun onEvent(p0: String?) {
