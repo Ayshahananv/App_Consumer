@@ -54,6 +54,9 @@ class ConnectionProvider:TransportService() {
     fun getIRequest():IRequest{
         return iRequest
     }
+    fun getIRequest():IRequest{
+        return iRequest
+    }
 
     fun getSchema() {
             if (connected) {
