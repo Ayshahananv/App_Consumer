@@ -95,6 +95,9 @@ class ConnectionProvider:TransportService() {
     fun s(){
         Log.d(TAG, "s: ")
     }
+    fun ss(){
+        TODO()
+    }
 }
 class EventReceiver:IResponse.Stub(){
     override fun onEvent(p0: String?) {
