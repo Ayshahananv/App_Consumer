@@ -3,10 +3,14 @@ package com.testing.app_consumer.connect
 import android.content.Context
 import android.util.Log
 import net.soti.xtsocket.ipc.IRequest
+import net.soti.xtsocket.ipc.controllers.ErrorHandler
 import net.soti.xtsocket.ipc.controllers.XTSocket
 import net.soti.xtsocket.ipc.interfaces.Ipc
 import net.soti.xtsocket.ipc.interfaces.IpcService
 import net.soti.xtsocket.ipc.model.Request
+import net.soti.xtsocket.ipc.model.XTSResponse
+import net.soti.xtsocket.ipc.model.toJSON
+import net.soti.xtsocket.ipc.model.toXTSResponse
 import org.json.JSONObject
 
 class ConnectionProvider : IpcService {
@@ -16,49 +20,67 @@ class ConnectionProvider : IpcService {
     companion object{
         val pkg = "com.testing.app_consumer"
         private var connected = false
-        lateinit var iRequest: IRequest
     }
 
 
     override fun onConnected(packageName: String, ipc: Ipc) {
         Log.d(TAG, "onConnected:")
-        iRequest=ipc.iRequest()!!
-        getSchema()
+        getSchema(ipc)
+        fetchData(ipc)
         //Scheduler().setAlarm(this.contextH, Scheduler.getTime())
     }
 
-    fun fetchData() {
+    fun fetchData(ipc: Ipc) {
         Log.d(TAG, "fetchData: ")
-        val data = iRequest.requestData(
+        val data = ipc.requestData(
             pkg, listOf(
-                Request("mfd", JSONObject().toString()),
-                Request("partnumber", JSONObject().toString()),
-                Request("serialnumber", JSONObject().toString()),
-                Request("ratedcapacity", JSONObject().toString()),
-                Request("battery_decommission", JSONObject().toString()),
-                Request("total_cumulative_charge", JSONObject().toString()),
-                Request("base_cumulative_charge", JSONObject().toString()),
-                Request("seconds_since_first_use", JSONObject().toString()),
-                Request("present_capacity", JSONObject().toString()),
-                Request("health_percentage", JSONObject().toString()),
-                Request("time_to_empty", JSONObject().toString()),
-                Request("time_to_full", JSONObject().toString()),
-                Request("present_charge", JSONObject().toString()),
-                //Request("battery_usage_numb", JSONObject().toString())
+                Request("model",JSONObject().toString()),
+                Request("version", JSONObject().toString()),
+                Request("ip", JSONObject().toString()),
+                Request("manufacturer",JSONObject().toString()),
+                Request("abc",JSONObject().toString())
+                /*Request("uniqueId", JSONObject().toString()),
+                Request("manufactureDate", JSONObject().toString()),
+                Request("partNumber", JSONObject().toString()),
+                Request("serialNumber", JSONObject().toString()),
+                Request("newCapacity", JSONObject().toString()),
+                Request("decommissionStatus", JSONObject().toString()),
+                Request("totalCumulativeCharge", JSONObject().toString()),
+                Request("baseCumulativeCharge", JSONObject().toString()),
+                Request("secondsSinceFirstUse", JSONObject().toString()),
+                Request("presentCapacity", JSONObject().toString()),
+                Request("healthPercentage", JSONObject().toString()),
+                Request("timeToEmpty", JSONObject().toString()),
+                Request("timeToFull", JSONObject().toString()),
+                Request("presentCharge", JSONObject().toString()),
+                Request("batteryType", JSONObject().toString()),
+                Request("isSmartBattery", JSONObject().toString())*/
             )
         )
-        Log.d(TAG, "onConnected: $data ")
+        Log.d(TAG, "onConnected: ${data?.toJSON()} ")
     }
 
-    private fun getSchema() {
+    private fun getSchema(ipc: Ipc) {
         Log.d(TAG, "getSchema: ")
         if (connected) {
-            val schema = JSONObject(iRequest.schema!!.value!!)
-            Log.e(TAG, "onSchema: ${JSONObject(iRequest.schema!!.value!!)}")
+            val schema = JSONObject(ipc.getSchema()!!.value!!)
+            Log.e(TAG, "onSchema: ${JSONObject(ipc.getSchema()!!.value!!)}")
             val requiredFeature =
                 schema.keys().asSequence().toMutableList()
-            //requiredFeature.remove("mfd")
-            iRequest.subscribe(pkg, requiredFeature)
+            //requiredFeature.add("testingSub")
+            Log.d(TAG, "getSchema: required: $requiredFeature")
+            ipc.subscribe(pkg, requiredFeature)
+
+           // Log.d("GETINFOO", "getInfo: ${JSONObject(ipc.getInfo(pkg)!!.value!!).getJSONObject("attributes").getJSONObject("values").get("version")}")
+            Log.d("GETINFOO", "getInfo: ${JSONObject(ipc.getInfo(pkg, emptyList()/*listOf(
+                Request("model",JSONObject().toString()),
+                Request("version", JSONObject().toString()))*/)!!.value!!)}")
+
+            val params = JSONObject()
+            params.put("ratedCapacity", 4000)
+            params.put("partnumber", "PT6690-BN:R .E")
+            params.put("mfd", "OPPO")
+            //Log.d(TAG, "getSchema:${ipc.init(pkg,params)} ")
         }
     }
 
@@ -69,7 +91,7 @@ class ConnectionProvider : IpcService {
     fun connect(context: Context) {
         contextH = context
         Log.d(TAG, "connect:")
-        connected = XTSocket().connect(context, "com.zebra.smartbattery", this)
+        connected = XTSocket().connect(context, "com.testing.app_producer", this)
         Log.d(TAG, "connected loop :${connected.toString()}")
     }
 }

@@ -43,7 +43,9 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    implementation files('src/main/lib/ipc-debug.aar')
-    implementation files('src/main/lib/error-debug.aar')
+//    implementation files('C:\\Users\\ahanan\\Documents\\Soti Ghe\\XTS\\ipc\\build\\outputs\\aar\\ipc-debug.aar')
+//    //implementation files('C:\\Users\\ahanan\\Documents\\Soti Ghe\\XTS\\transformlayer\\build\\outputs\\aar\\transformlayer-debug.aar')
+//    implementation files('C:\\Users\\ahanan\\Documents\\Soti Ghe\\XTS\\error\\build\\outputs\\aar\\error-debug.aar')
+    implementation files('C:\\Users\\ahanan\\Documents\\Soti Ghe\\XTSLibrary\\xtsocket\\build\\outputs\\aar\\xtsocket-debug.aar')
 
 }

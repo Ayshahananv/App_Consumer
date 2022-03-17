@@ -11,7 +11,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
         ConnectionProvider().connect(this)
-        Scheduler().setAlarm(this, Scheduler.getTime())
+        //Scheduler().setAlarm(this, Scheduler.getTime())
         Log.d("ONE_C", "onCreate:ended ")
 
     }
