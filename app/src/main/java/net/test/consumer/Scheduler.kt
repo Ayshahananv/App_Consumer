@@ -1,4 +1,4 @@
-package com.testing.app_consumer
+package net.test.consumer
 
 import android.app.AlarmManager
 import android.app.PendingIntent
