@@ -4,7 +4,11 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
+        maven {
+            url 'http://sotiartifacts.corp.soti.net:8081/artifactory/globalmaven/'
+            allowInsecureProtocol true
+        }
     }
 }
-rootProject.name = "App_Consumer"
+rootProject.name = "consumer"
 include ':app'

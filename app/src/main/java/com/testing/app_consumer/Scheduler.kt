@@ -15,7 +15,7 @@ class Scheduler {
         fun getTime(): Long {
             Log.d("ONE_C", "getTime:4 ")
             val calendar: Calendar = Calendar.getInstance()
-            calendar.set(Calendar.MINUTE, 25)
+            calendar.set(Calendar.MINUTE, 49)
             calendar.set(Calendar.SECOND, 1)
             calendar.set(Calendar.MILLISECOND, 10)
             return calendar.timeInMillis

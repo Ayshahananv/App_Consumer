@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">App_Consumer</string>
+    <string name="app_name">Consumer</string>
     <!-- Settings Activity Title -->
     <string name="title_activity_settings">SettingsActivity</string>
 

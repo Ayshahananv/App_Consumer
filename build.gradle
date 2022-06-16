@@ -3,6 +3,10 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url 'http://sotiartifacts.corp.soti.net:8081/artifactory/globalmaven/'
+            allowInsecureProtocol true
+        }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.4"
