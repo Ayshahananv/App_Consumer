@@ -13,7 +13,7 @@ class ConnectionProvider : IpcService {
     private val TAG = "Aysha"
 
     suspend fun connect(context: Context): Ipc? {
-        return XTSocket.connect(context, "net.soti.smartbattery.bluebird")
+        return XTSocket.connect(context, "net.soti.smartbattery.zebra")
     }
 
     fun fetchData(ipc: Ipc) {

@@ -19,7 +19,7 @@ class SettingsActivity : AppCompatActivity() {
             val schema = JSONObject(ipc?.getSchema()!!.value!!)
             val features =schema.keys().asSequence().toMutableList()
             ipc.subscribe(features)
-            ConnectionProvider().fetchData(ipc)
+            //ConnectionProvider().fetchData(ipc)
 //            Log.d("ONE_C", "onCreate:${ipc.getInfo()}")
         }
     }
