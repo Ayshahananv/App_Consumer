@@ -1,4 +1,4 @@
-package com.testing.app_consumer
+package net.test.consumer
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.testing.app_consumer", appContext.packageName)
+        assertEquals("net.test.consumer", appContext.packageName)
     }
 }

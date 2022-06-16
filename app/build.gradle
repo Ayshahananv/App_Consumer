@@ -10,7 +10,7 @@ android {
     compileSdkVersion 31
 
     defaultConfig {
-        applicationId "com.testing.app_consumer"
+        applicationId "net.test.consumer"
         minSdk 27
         targetSdk 32
         versionCode 1
